@@ -11,16 +11,21 @@ import (
 )
 
 type Cli struct {
-	out    io.Writer
-	in     io.Reader
-	DbUser string `help:"database uesr" required`
+	out io.Writer
+	in  io.Reader
+
+	DbUser string `help:"database uesr"`
 	DbPass string `help:"database password"`
 	DbHost string `help:"database host" default:"localhost"`
 	DbPort int    `help:"database port" default:"3306"`
 	DbSock string `help:"database socket"`
 	DbName string `help:"database name"`
 	Sql    string `help:"sql"`
+
+	Version VersionCmd `cmd help:"show version"`
 }
+
+type VersionCmd struct{}
 
 func New(out io.Writer, in io.Reader) *Cli {
 	return &Cli{
@@ -30,7 +35,15 @@ func New(out io.Writer, in io.Reader) *Cli {
 }
 
 func (c *Cli) Run() error {
-	kong.Parse(c)
+	ctx := kong.Parse(c)
+
+	version := "v0.0.1"
+
+	switch ctx.Command() {
+	case "version":
+		fmt.Println(version)
+		return nil
+	}
 
 	sql := c.Sql
 	if sql == "" {

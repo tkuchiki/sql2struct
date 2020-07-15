@@ -8,7 +8,7 @@ Download from https://github.com/tkuchiki/sql2struct/releases
 
 ```console
 $ sql2struct --help
-Usage: sql2struct --db-user=STRING
+Usage: sql2struct <command>
 
 Flags:
   -h, --help                   Show context-sensitive help.
@@ -19,6 +19,12 @@ Flags:
       --db-sock=STRING         database socket
       --db-name=STRING         database name
       --sql=STRING             sql
+
+Commands:
+  version
+    show version
+
+Run "sql2struct <command> --help" for more information on a command.
 ```
 
 ## Examples
@@ -27,4 +33,7 @@ Flags:
 $ sql2struct --db-user=root --dbname=testdb --sql "SELECT t1.*, t2.name FROM t1 JOIN t1.id = t2.t1_id"
 
 $ echo "SELECT t1.*, t2.name FROM t1 JOIN t1.id = t2.t1_id" | sql2struct --db-user=root --dbname=testdb
+
+# show version
+$ sql2struct version
 ```
